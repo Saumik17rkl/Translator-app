@@ -1,13 +1,10 @@
 import streamlit as st
-import asyncio
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 from textblob import TextBlob
-import os
-# Function to handle async translation
-async def translate_text(text, dest_lang):
-    translator = Translator()
-    translation = await translator.translate(text, dest=dest_lang)
-    return translation.text
+
+def translate_text(text, dest_lang):
+    translator = GoogleTranslator(source='auto', target=dest_lang)
+    return translator.translate(text)
 
 def main():
     st.title("Translator and Sentiment Analysis App")
@@ -16,8 +13,7 @@ def main():
     activities = ["Translator", "Sentiment Analysis"]
     choice = st.sidebar.selectbox("Select Operation:", activities)
 
-    # Sidebar with Indian language codes
-    st.sidebar.subheader("Indian Language Codes")
+    # Sidebar dropdown for Indian language codes
     indian_languages = {
         "Assamese": "as", "Bengali": "bn", "Gujarati": "gu", "Hindi": "hi",
         "Kannada": "kn", "Konkani": "gom", "Maithili": "mai", "Malayalam": "ml",
@@ -25,34 +21,24 @@ def main():
         "Punjabi": "pa", "Sanskrit": "sa", "Sindhi": "sd", "Tamil": "ta",
         "Telugu": "te", "Urdu": "ur",
     }
-    
-    for lang, code in indian_languages.items():
-        st.sidebar.write(f"**{lang}**: `{code}`")
 
     if choice == "Translator":
         st.write("### Translator")
-        from_text = st.text_input("Enter a sentence to translate (Press Enter)")
-        from_code = st.text_input("Enter a language code (e.g., 'hi' for Hindi, 'ta' for Tamil)")
+        from_text = st.text_input("Enter a sentence to translate")
+        to_lang = st.selectbox("Select target language", list(indian_languages.keys()))
 
-        if from_text and from_code:  # Trigger automatically when both fields have values
+        if from_text and to_lang:
             try:
-                translated_text = asyncio.run(translate_text(from_text, from_code))
+                translated_text = translate_text(from_text, indian_languages[to_lang])
                 st.success(f"Translated Text: {translated_text}")
             except Exception as e:
-                a=os.system("ping www.google.com")
-                if a==1:
-                    st.write("Please Check Your internet connection")
-                else:
-                    st.write("Wrong Language code")
-               
-
                 st.error(f"Translation failed: {e}")
 
     elif choice == "Sentiment Analysis":
-        st.write("Sentiment Analysis")
-        user_text = st.text_area("Enter text for sentiment analysis (Press Enter)")
+        st.write("### Sentiment Analysis")
+        user_text = st.text_area("Enter text for sentiment analysis")
 
-        if user_text:  # Trigger automatically
+        if user_text:
             blob = TextBlob(user_text)
             sentiment = blob.sentiment.polarity
             if sentiment > 0:
