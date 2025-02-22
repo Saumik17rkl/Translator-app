@@ -1,58 +1,76 @@
-﻿# Translator-app
-Translator and Sentiment Analysis App
-Description
-This is a simple web application built with Streamlit that provides:
+# Translator and Sentiment Analysis Chatbot
 
-Language Translation: Converts text from one language to another using Google Translate.
-Sentiment Analysis: Analyzes the sentiment of a given text using TextBlob.
-Features
-✅ Translate text into multiple Indian languages.
-✅ Sentiment analysis (Positive, Negative, or Neutral).
-✅ Automatic detection of translation errors or internet issues.
-✅ Simple and interactive UI using Streamlit.
+## Overview
+This is a **Streamlit-based chatbot application** that performs:
+- **Translation**: Converts text into Indian languages using `deep_translator`.
+- **Sentiment Analysis**: Analyzes text sentiment using `TextBlob`.
+- **Chatbot Interface**: Engages the user step-by-step for a natural conversation experience.
 
-Supported Indian Languages
-Assamese (as)
-Bengali (bn)
-Gujarati (gu)
-Hindi (hi)
-Kannada (kn)
-Konkani (gom)
-Maithili (mai)
-Malayalam (ml)
-Manipuri (mni)
-Marathi (mr)
-Nepali (ne)
-Odia (or)
-Punjabi (pa)
-Sanskrit (sa)
-Sindhi (sd)
-Tamil (ta)
-Telugu (te)
-Urdu (ur)
-Installation
-Clone the repository
+---
 
-sh
-Copy
-Edit
-git clone https://github.com/Saumik17rkl/Translator-app.git
-cd Translator-app
-Install dependencies
+## Features
+### 🎯 Chatbot-Based Translator
+- Users enter a sentence.
+- The chatbot asks for the target language.
+- The system provides a translated response in the chosen language.
 
-sh
-Copy
-Edit
+### 📊 Sentiment Analysis
+- Users input text for sentiment evaluation.
+- Detects **positive, negative, or neutral** sentiment.
+
+### 🔤 Supports Multiple Indian Languages
+- Assamese, Bengali, Gujarati, Hindi, Kannada, Konkani, Maithili, Malayalam, Marathi, Nepali, Odia, Punjabi, Sanskrit, Sindhi, Tamil, Telugu, Urdu.
+
+---
+
+## Installation
+### 🛠 Setup Virtual Environment
+```bash
+python -m venv env
+source env/bin/activate  # For macOS/Linux
+env\Scripts\activate    # For Windows
+```
+
+### 📦 Install Dependencies
+```bash
 pip install -r requirements.txt
-Run the application
+```
 
-sh
-Copy
-Edit
+---
+
+## Usage
+### 🚀 Run the Application
+```bash
 streamlit run app.py
-Usage
-Enter text to translate and select the target language.
-For sentiment analysis, input a sentence and get its sentiment score.
-Handles incorrect language codes and internet connection issues.
-Contributing
-Feel free to open an issue or submit a pull request to improve the app.
+```
+
+### 🏗 Chatbot Flow
+1. **User:** Enters a sentence.
+2. **System:** Asks for the target language.
+3. **User:** Selects the language.
+4. **System:** Provides the translated output.
+
+---
+
+## Dependencies
+- `streamlit`
+- `deep_translator`
+- `textblob`
+
+Install them using:
+```bash
+pip install streamlit deep_translator textblob
+```
+
+---
+
+## Future Enhancements
+- **Speech-to-Text Support** 🎙
+- **Multilingual Sentiment Analysis** 📖
+- **Chatbot Personality Customization** 🤖
+
+---
+
+## Author
+**Saumik Chakraborty** 🚀
+
