@@ -1,3 +1,18 @@
+import subprocess
+import sys
+
+# Function to install required packages
+def install_requirements():
+    packages = [
+        "streamlit", "matplotlib", "seaborn", "numpy", "pandas", 
+        "scikit-learn", "deep-translator", "textblob"
+    ]
+    for package in packages:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+# Install required packages
+install_requirements()
+
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
