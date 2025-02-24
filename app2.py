@@ -1,17 +1,15 @@
-import subprocess
-import sys
+try:
+    import streamlit as st
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    import numpy as np
+    import pandas as pd
+    from sklearn.metrics import confusion_matrix
+    from deep_translator import GoogleTranslator
+    from textblob import TextBlob
+except ImportError:
+    st.error("Missing dependencies! Please add them to `requirements.txt`.")
 
-# Function to install required packages
-def install_requirements():
-    packages = [
-        "streamlit", "matplotlib", "seaborn", "numpy", "pandas", 
-        "scikit-learn", "deep-translator", "textblob"
-    ]
-    for package in packages:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
-# Install required packages
-install_requirements()
 
 import streamlit as st
 import matplotlib.pyplot as plt
