@@ -41,7 +41,7 @@ pip install -r requirements.txt
 ## Usage
 ### 🚀 Run the Application
 ```bash
-streamlit run app.py
+streamlit run app2.py
 ```
 
 ### 🏗 Chatbot Flow
