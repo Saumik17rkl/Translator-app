@@ -70,6 +70,8 @@ def plot_confusion_matrix():
     ax.set_ylabel("True Label")
     
     st.pyplot(fig)
+if "live_feedbacks" not in st.session_state:
+    st.session_state.live_feedbacks = []
 
 # Main function
 def main():
