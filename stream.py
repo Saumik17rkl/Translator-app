@@ -58,6 +58,30 @@ def plot_language_accuracy():
     
     st.pyplot(fig)
 
+# Feedback mechanism
+st.sidebar.markdown("## 💬 Feedback")
+feedback = st.sidebar.radio("Was the translation helpful?", ('Bad', 'Ok', 'Good', 'Very Good', 'Excellent'))
+
+if "feedback_scores" not in st.session_state:
+    st.session_state.feedback_scores = {'Bad': 0, 'Ok': 0, 'Good': 0, 'Very Good': 0, 'Excellent': 0}
+
+st.session_state.feedback_scores[feedback] += 1
+
+# Model selection based on feedback
+def select_model():
+    scores = st.session_state.feedback_scores
+    total = sum(scores.values())
+    if total == 0:
+        return "TextBlob"
+    
+    score_ratio = (scores['Bad'] + scores['Ok']) / total
+    if score_ratio > 0.7:
+        return "TextBlob"
+    elif score_ratio > 0.4:
+        return "GoogleTranslator"
+    else:
+        return "AI4Bharat"
+
 # Function to plot confusion matrix
 def plot_confusion_matrix():
     y_true = np.array(["Hindi", "Bengali", "Tamil", "Telugu", "Marathi", "Hindi", "Bengali", "Tamil", "Telugu", "Marathi"])
@@ -72,17 +96,20 @@ def plot_confusion_matrix():
     ax.set_ylabel("True Label")
     
     st.pyplot(fig)
+
 if "live_feedbacks" not in st.session_state:
     st.session_state.live_feedbacks = []
 
 # Main function
 def main():
+    from_text = ""
+
     st.title("Multi-Language Translator 🌐")
     st.write("Supports over 22 Indian Regional Languages")
-    
+
     activities = ["Chatbot Translator", "Translator", "Sentiment Analysis", "Accuracy Insights"]
     choice = st.sidebar.selectbox("Select Operation:", activities)
-    
+
     indian_languages = {
         "Assamese": "as", "Bengali": "bn", "Gujarati": "gu", "Hindi": "hi",
         "Kannada": "kn", "Konkani": "gom", "Maithili": "mai", "Malayalam": "ml",
@@ -90,7 +117,12 @@ def main():
         "Punjabi": "pa", "Sanskrit": "sa", "Sindhi": "sd", "Tamil": "ta", "Telugu": "te", 
         "Urdu": "ur", "English": "en"
     }
-    
+
+    st.sidebar.markdown("---")
+    st.sidebar.write("### Feedback Stats")
+    for key, val in st.session_state.feedback_scores.items():
+        st.sidebar.write(f"{key}: {val}")
+
     if choice == "Translator":
         st.write("### Text Translator")
         from_text = st.text_input("Enter text")
@@ -100,9 +132,19 @@ def main():
             try:
                 translated_text = translate_text(from_text, indian_languages[to_lang])
                 st.success(f"Translated Text: {translated_text}")
+
+                if feedback in ['Bad', 'Ok']:
+                    st.info("Improving translation based on your feedback...")
+                    improved_model = select_model()
+                    if improved_model in ["TextBlob", "GoogleTranslator"]:
+                        improved_translation = translate_text(from_text, indian_languages[to_lang])
+                    else:
+                        improved_translation = f"[AI4Bharat simulated translation of '{from_text}']"
+                    st.warning(f"Improved Translation using {improved_model}: {improved_translation}")
+
             except Exception as e:
                 st.error(f"Translation failed: {e}")
-    
+
     elif choice == "Sentiment Analysis":
         st.write("### Sentiment Analysis")
         user_text = st.text_area("Enter text for sentiment analysis")
@@ -131,8 +173,8 @@ def main():
                 bot_response = f"Translation failed: {e}"
             st.session_state.chat_history.append(bot_response)
             st.write(bot_response)
-    
-    elif choice == "Accuracy Insights": 
+
+    elif choice == "Accuracy Insights":
         st.write("## Translation Model Accuracy")
         plot_accuracy_chart()
         st.write("## Language Translation Accuracy")
