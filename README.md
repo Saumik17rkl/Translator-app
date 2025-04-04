@@ -33,7 +33,7 @@ env\Scripts\activate    # For Windows
 
 ### 📦 Install Dependencies
 ```bash
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ---
